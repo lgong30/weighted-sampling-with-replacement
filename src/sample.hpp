@@ -63,6 +63,71 @@ namespace saber {
 
         return samples;
     }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @param m
+     * @param first
+     * @param last
+     * @return
+     */
+    template <class RandomAccessIterator>
+    std::vector<size_t> sample(size_t m, RandomAccessIterator first, RandomAccessIterator last)
+    {
+        typename std::iterator_traits<RandomAccessIterator>::difference_type n;
+        n = (last - first);
+
+        std::default_random_engine generator;
+        std::uniform_real_distribution<double> distribution(0.0, n);
+        auto rng = std::bind(distribution, generator);
+
+        return sample(m, first, last, rng);
+
+    }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @param first
+     * @param last
+     * @return
+     */
+    template <class RandomAccessIterator>
+    typename std::iterator_traits<RandomAccessIterator>::value_type sample(RandomAccessIterator first, RandomAccessIterator last)
+    {
+        typename std::iterator_traits<RandomAccessIterator>::difference_type n;
+        n = (last - first);
+
+        std::default_random_engine generator;
+        std::uniform_real_distribution<double> distribution(0.0, n);
+        auto rng = std::bind(distribution, generator);
+
+        return sample(1, first, last, rng)[0];
+    }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @tparam RandomNumberGenerator
+     * @param first
+     * @param last
+     * @param gen
+     * @return
+     */
+    template <class RandomAccessIterator, class RandomNumberGenerator>
+    typename std::iterator_traits<RandomAccessIterator>::value_type sample(RandomAccessIterator first, RandomAccessIterator last, RandomNumberGenerator& gen) {
+        return sample(1, first, last)[0];
+    }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @tparam UniformIntegerGenerator
+     * @tparam UniformZeroOneRandomGenerator
+     * @param m
+     * @param first
+     * @param last
+     * @param u
+     * @param gen
+     * @return
+     */
     template <class RandomAccessIterator, class UniformIntegerGenerator, class UniformZeroOneRandomGenerator>
     std::vector<size_t> roulette_wheel_selection(size_t m, RandomAccessIterator first, RandomAccessIterator last, UniformIntegerGenerator& u, UniformZeroOneRandomGenerator& gen){
         typename std::iterator_traits<RandomAccessIterator>::difference_type n;
@@ -80,6 +145,55 @@ namespace saber {
         }
 
         return samples;
+    }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @param m
+     * @param first
+     * @param last
+     * @return
+     */
+    template <class RandomAccessIterator>
+    std::vector<size_t> roulette_wheel_selection(size_t m, RandomAccessIterator first, RandomAccessIterator last){
+        typename std::iterator_traits<RandomAccessIterator>::difference_type n;
+        n = (last - first);
+
+        std::default_random_engine generator;
+        std::uniform_real_distribution<double> distribution(0.0, 1.0);
+        std::default_random_engine generator1;
+        std::uniform_int_distribution<int> distribution1(0, n);
+
+        auto rg = std::bind(distribution, generator);
+        auto ug = std::bind(distribution1, generator1);
+
+        return roulette_wheel_selection(m, first, last, ug, rg);
+    }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @param first
+     * @param last
+     * @return
+     */
+    template <class RandomAccessIterator>
+    typename std::iterator_traits<RandomAccessIterator>::value_type roulette_wheel_selection(RandomAccessIterator first, RandomAccessIterator last){
+        return roulette_wheel_selection(1, first, last)[0];
+    }
+    /**
+     *
+     * @tparam RandomAccessIterator
+     * @tparam UniformIntegerGenerator
+     * @tparam UniformZeroOneRandomGenerator
+     * @param first
+     * @param last
+     * @param u
+     * @param gen
+     * @return
+     */
+    template <class RandomAccessIterator, class UniformIntegerGenerator, class UniformZeroOneRandomGenerator>
+    typename std::iterator_traits<RandomAccessIterator>::value_type roulette_wheel_selection(RandomAccessIterator first, RandomAccessIterator last, UniformIntegerGenerator& u, UniformZeroOneRandomGenerator& gen){
+        return roulette_wheel_selection(1, first, last, u, r)[0];
     }
 };
 #endif //SABER_SAMPLE_HPP
