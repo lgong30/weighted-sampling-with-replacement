@@ -1,6 +1,6 @@
 # O(1) Weighted Sampling With Replacement
 
-This repository implements two weighted sampling algorithms which run in amortized O(1) time per each sample. The first algorithm is based on [Vose's algorithm][1]. The other is based on [the roulette-wheel selection algorithm][2].
+This repository implements two weighted sampling algorithms which run in amortized O(1) time per each sample. The first algorithm is based on Vose's algorithm [[1](http://ieeexplore.ieee.org/document/92917/)]. The other is based on the roulette-wheel selection algorithm [[2](https://arxiv.org/pdf/1611.00532.pdf)].
 
 
 ## Usage
